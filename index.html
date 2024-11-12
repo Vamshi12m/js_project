@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url("https://previews.123rf.com/images/iunewind/iunewind1403/iunewind140300100/26576728-numbers-background.jpg");
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: antiquewhite;
+      border-radius: 8px;
+      box-shadow: 2px 2px 20px #c58e8e;
+    }
+
+    #resultSection {
+      background-color: #c58e8e;
+      padding: 10px;
+      border-radius: 5px;
+      border-bottom: 12px solid #f86a6a;
+    }
+
+    #numberFact {
+      font-size: 18px;
+    }
+    .title{
+      /* color: white; */
+      font-size: 2.5rem;
+    }
+    .inputNo{
+      /* color: white; */
+      font-size: 1.5rem;
+    }
+    #numberInput,.option{
+      height: 2.3rem;
+      border-radius: 8px;
+      border: 1px solid rgb(234, 199, 199) ;
+    
+    }
+    .btn-1{
+      background-color: #e75555;
+      color: white;
+      border: 0;
+      border-radius: 10px;
+      padding:10px;
+    }
+    
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1 class="title">Number Info App</h1>
+    <form id="numberForm">
+      <label for="numberInput" class="inputNo">Enter a number:</label>
+      <input type="number" id="numberInput" placeholder="Type a number" required>
+      <select id="factType" class="option">
+        <option value="trivia" >Trivia</option>
+        <option value="math">Math</option>
+        <option value="date">Date</option>
+        <option value="year">Year</option>
+      </select><br><br>
+      <div class="bt-cont">
+          <button type="submit" class="btn-1">Get Random Fact</button>
+      </div>
+    </form>
+    <br><br>
+    <div id="resultSection" class="">
+      <h2>Fact:</h2>
+      <p id="numberFact"></p>
+    </div>
+  </div>
+  <script>
+    document.getElementById("numberForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      let number = document.getElementById("numberInput").value;
+      let factType = document.getElementById("factType").value;
+
+      fetchNumberFact(number, factType);
+    });
+
+    function fetchNumberFact(number, factType) {
+      const url = `https://numbersapi.p.rapidapi.com/${number}/${factType}`;
+      const options = {
+        method: 'GET',
+        headers: {
+          'X-RapidAPI-Key': 'd2c3c6d414msh966d647fc1160f2p1fd92ejsn69062cf5cb59',
+          'X-RapidAPI-Host': 'numbersapi.p.rapidapi.com'
+        }
+      };
+
+      fetch(url, options)
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById("numberFact").textContent = data;
+        })
+        .catch(error => {
+          document.getElementById("numberFact").textContent = "Error fetching data.";
+          console.error('Error:', error);
+        });
+    }
+
+  </script>
+</body>
+
+</html>
